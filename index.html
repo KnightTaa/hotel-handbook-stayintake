@@ -1,0 +1,1030 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Hotel Operations Handbook</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Literata:opsz,wght@7..72,400;7..72,600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+  /* ============================================================
+     Harbour — the portal's own light theme, carried into print.
+     Single theme on purpose: the product has no dark mode, and a
+     dark page around light screenshots reads as a fault.
+     ============================================================ */
+  :root {
+    color-scheme: light;
+
+    --paper: oklch(0.985 0.003 250);
+    --surface: oklch(1 0 0);
+    --surface-subtle: oklch(0.975 0.004 250);
+    --muted: oklch(0.96 0.006 250);
+    --border: oklch(0.912 0.008 250);
+    --border-strong: oklch(0.855 0.012 250);
+
+    --ink: oklch(0.245 0.02 258);
+    --ink-muted: oklch(0.52 0.02 258);
+    --ink-subtle: oklch(0.53 0.016 258);
+
+    --harbour: oklch(0.48 0.118 252);
+    --harbour-soft: oklch(0.955 0.022 252);
+    --harbour-border: oklch(0.88 0.048 252);
+
+    --ochre: oklch(0.54 0.145 76);
+    --ochre-soft: oklch(0.968 0.045 76);
+
+    --danger: oklch(0.545 0.195 25);
+    --danger-soft: oklch(0.96 0.035 25);
+    --success: oklch(0.52 0.135 158);
+    --success-soft: oklch(0.96 0.035 158);
+
+    /* The ten booking states, exactly as the portal paints them. */
+    --s-draft: oklch(0.54 0.02 258);          --s-draft-bg: oklch(0.965 0.004 258);
+    --s-submitted: oklch(0.545 0.15 72);      --s-submitted-bg: oklch(0.972 0.04 72);
+    --s-amendment: oklch(0.545 0.165 48);     --s-amendment-bg: oklch(0.968 0.04 48);
+    --s-amended: oklch(0.55 0.15 295);        --s-amended-bg: oklch(0.965 0.03 295);
+    --s-confirmed: oklch(0.52 0.135 158);     --s-confirmed-bg: oklch(0.96 0.035 158);
+    --s-modification: oklch(0.53 0.115 232);  --s-modification-bg: oklch(0.96 0.03 232);
+    --s-cancelreq: oklch(0.55 0.15 12);       --s-cancelreq-bg: oklch(0.965 0.03 12);
+    --s-cancelled: oklch(0.52 0.12 12);       --s-cancelled-bg: oklch(0.96 0.03 12);
+    --s-rejected: oklch(0.5 0.185 25);        --s-rejected-bg: oklch(0.96 0.035 25);
+    --s-expired: oklch(0.54 0.01 258);        --s-expired-bg: oklch(0.965 0.003 258);
+
+    --display: "Literata", Georgia, "Times New Roman", serif;
+    --body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- shell ---------- */
+  .wrap {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding-inline: 16px;
+    padding-block: 0;
+  }
+
+  .masthead {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .masthead .wrap { padding-block: 40px 32px; }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--harbour);
+    margin: 0 0 14px;
+  }
+  h1 {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(30px, 5.5vw, 46px);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+  .standfirst {
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-muted);
+    max-width: 62ch;
+    margin: 0;
+  }
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    margin-top: 26px;
+    font-size: 12.5px;
+    color: var(--ink-subtle);
+  }
+  .meta b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- two-column body ---------- */
+  .layout {
+    display: grid;
+    grid-template-columns: 216px minmax(0, 1fr);
+    gap: 52px;
+    align-items: start;
+  }
+  .layout > .wrap { padding-inline: 0; }
+
+  nav.toc {
+    position: sticky;
+    top: calc(env(safe-area-inset-top, 0px) + 24px);
+    font-size: 13px;
+    padding-block: 44px;
+  }
+  nav.toc p {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-subtle);
+    margin: 0 0 12px;
+  }
+  nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+  nav.toc a {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 6px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    color: var(--ink-muted);
+    text-decoration: none;
+    line-height: 1.35;
+  }
+  nav.toc a:hover { background: var(--muted); color: var(--ink); }
+  nav.toc a span { font-family: var(--mono); font-size: 11px; color: var(--ink-subtle); padding-top: 1px; }
+
+  main { padding-block: 44px 72px; min-width: 0; }
+
+  section { scroll-margin-top: 24px; }
+  section + section { margin-top: 54px; }
+
+  h2 {
+    font-family: var(--display);
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    margin: 0 0 6px;
+    text-wrap: balance;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: baseline;
+  }
+  h2 .num {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--harbour);
+    letter-spacing: 0;
+  }
+  h3 {
+    font-family: var(--body);
+    font-size: 15px;
+    font-weight: 600;
+    margin: 30px 0 8px;
+    letter-spacing: -0.005em;
+  }
+  .lede { color: var(--ink-muted); margin: 0 0 20px; max-width: 66ch; }
+  p { max-width: 66ch; margin: 0 0 14px; }
+  ul, ol.steps { max-width: 66ch; }
+
+  a { color: var(--harbour); }
+
+  /* ---------- numbered task steps ---------- */
+  ol.steps { list-style: none; counter-reset: s; margin: 0 0 18px; padding: 0; display: grid; gap: 14px; }
+  ol.steps > li {
+    counter-increment: s;
+    display: grid;
+    grid-template-columns: 26px minmax(0, 1fr);
+    gap: 12px;
+  }
+  ol.steps > li::before {
+    content: counter(s);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--harbour);
+    background: var(--harbour-soft);
+    border: 1px solid var(--harbour-border);
+    border-radius: 50%;
+    width: 22px; height: 22px;
+    display: grid; place-items: center;
+    margin-top: 1px;
+  }
+  ol.steps > li > :first-child { margin-top: 0; }
+  ol.steps p:last-child { margin-bottom: 0; }
+
+  ul.plain { padding-left: 20px; margin: 0 0 16px; display: grid; gap: 7px; }
+
+  /* ---------- screenshot placeholder ---------- */
+  figure.shot {
+    margin: 22px 0;
+    border: 1.5px dashed var(--border-strong);
+    border-radius: 10px;
+    background: repeating-linear-gradient(
+      -45deg, var(--surface-subtle), var(--surface-subtle) 11px, var(--muted) 11px, var(--muted) 22px
+    );
+    padding: 20px;
+  }
+  figure.shot .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--surface);
+    background: var(--ink);
+    border-radius: 4px;
+    padding: 3px 8px;
+  }
+  figure.shot figcaption {
+    margin-top: 12px;
+    font-size: 13.5px;
+    color: var(--ink);
+    max-width: 62ch;
+  }
+  figure.shot figcaption b { font-weight: 600; }
+  figure.shot .how {
+    margin-top: 8px;
+    font-size: 12.5px;
+    color: var(--ink-muted);
+    max-width: 62ch;
+  }
+  figure.shot img { display: block; border-radius: 6px; border: 1px solid var(--border); }
+
+  /* ---------- status chips ---------- */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 2px 10px;
+    white-space: nowrap;
+  }
+  .chip::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .c-draft { color: var(--s-draft); background: var(--s-draft-bg); }
+  .c-submitted { color: var(--s-submitted); background: var(--s-submitted-bg); }
+  .c-amendment { color: var(--s-amendment); background: var(--s-amendment-bg); }
+  .c-amended { color: var(--s-amended); background: var(--s-amended-bg); }
+  .c-confirmed { color: var(--s-confirmed); background: var(--s-confirmed-bg); }
+  .c-modification { color: var(--s-modification); background: var(--s-modification-bg); }
+  .c-cancelreq { color: var(--s-cancelreq); background: var(--s-cancelreq-bg); }
+  .c-cancelled { color: var(--s-cancelled); background: var(--s-cancelled-bg); }
+  .c-rejected { color: var(--s-rejected); background: var(--s-rejected-bg); }
+  .c-expired { color: var(--s-expired); background: var(--s-expired-bg); }
+
+  /* ---------- tables ---------- */
+  .scroller { overflow-x: auto; margin: 0 0 18px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; min-width: 520px; }
+  caption { text-align: left; font-size: 12.5px; color: var(--ink-subtle); padding-bottom: 8px; }
+  th, td { text-align: left; vertical-align: top; padding: 9px 14px 9px 0; border-bottom: 1px solid var(--border); }
+  th {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink-subtle);
+    border-bottom: 1px solid var(--border-strong);
+  }
+  td.who { white-space: nowrap; font-weight: 500; }
+
+  code {
+    font-family: var(--mono);
+    font-size: 0.87em;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+  .ref { font-family: var(--mono); font-size: 0.9em; letter-spacing: -0.01em; }
+
+  /* ---------- callouts ---------- */
+  .note {
+    border-left: 3px solid var(--harbour);
+    background: var(--harbour-soft);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin: 20px 0;
+    max-width: 66ch;
+  }
+  .note.warn { border-left-color: var(--ochre); background: var(--ochre-soft); }
+  .note.stop { border-left-color: var(--danger); background: var(--danger-soft); }
+  .note p { margin: 0; max-width: none; }
+  .note p + p { margin-top: 8px; }
+  .note strong { font-weight: 600; }
+
+  /* ---------- capture checklist ---------- */
+  .checklist {
+    border: 1px solid var(--harbour-border);
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin: 26px 0 0;
+  }
+  .checklist h3 { margin-top: 0; }
+  .checklist ol { margin: 0; padding-left: 20px; font-size: 13.5px; display: grid; gap: 6px; color: var(--ink-muted); }
+  .checklist ol b { color: var(--ink); font-weight: 600; }
+
+  /* ---------- role matrix ---------- */
+  table.matrix { min-width: 680px; }
+  table.matrix th.role { text-align: center; font-size: 10px; letter-spacing: 0.06em; }
+  table.matrix td.mark { text-align: center; font-family: var(--mono); font-size: 13px; }
+  .yes { color: var(--success); font-weight: 600; }
+  .no { color: var(--ink-subtle); opacity: 0.45; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    background: var(--surface);
+    margin-top: 64px;
+  }
+  footer .wrap { padding-block: 28px 40px; }
+  footer p { font-size: 12.5px; color: var(--ink-subtle); margin: 0; max-width: 70ch; }
+
+  /* ---------- phone ---------- */
+  @media (max-width: 880px) {
+    .layout { grid-template-columns: 1fr; gap: 0; }
+    nav.toc {
+      position: static;
+      padding-block: 28px 0;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 22px;
+    }
+    nav.toc ol { grid-template-columns: 1fr 1fr; display: grid; }
+    main { padding-block: 32px 56px; }
+    section + section { margin-top: 44px; }
+  }
+  @media (max-width: 520px) {
+    nav.toc ol { grid-template-columns: 1fr; }
+  }
+
+
+  /* A figure that has its picture: solid card, no hatching. */
+  figure.shot.filled {
+    border: 1px solid var(--border);
+    border-style: solid;
+    background: var(--surface);
+    padding: 12px;
+    box-shadow: 0 1px 3px oklch(0.24 0.02 258 / 0.08);
+  }
+  figure.shot.filled img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+  }
+  figure.shot.filled figcaption { margin-top: 12px; padding-inline: 4px; }
+
+  /* ---------- print / PDF ---------- */
+  @media print {
+    body { background: #fff; font-size: 11pt; }
+    .layout { grid-template-columns: 1fr; }
+    nav.toc { display: none; }
+    .masthead { border-bottom: 2px solid var(--ink); }
+    section { break-inside: auto; }
+    h2 { break-after: avoid; }
+    figure.shot, .note, table { break-inside: avoid; }
+    a { color: var(--ink); text-decoration: none; }
+    /* ---------- role matrix ---------- */
+  table.matrix { min-width: 680px; }
+  table.matrix th.role { text-align: center; font-size: 10px; letter-spacing: 0.06em; }
+  table.matrix td.mark { text-align: center; font-family: var(--mono); font-size: 13px; }
+  .yes { color: var(--success); font-weight: 600; }
+  .no { color: var(--ink-subtle); opacity: 0.45; }
+
+  footer { border-top: 1px solid var(--ink); }
+  }
+
+  :where(a, button):focus-visible {
+    outline: 2px solid var(--harbour);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="eyebrow">Ocean Bay Hotel · Reservations Portal</p>
+    <h1>Hotel Operations Handbook</h1>
+    <p class="standfirst">
+      How the hotel runs agency bookings through the portal: taking requests, answering them,
+      closing the loop with the PMS, and managing the agencies themselves. Covers all six hotel
+      roles and says which parts belong to each.
+    </p>
+    <div class="meta">
+      <span><b>For</b> owners, administrators, reservations, front office and accounts</span>
+      <span><b>Portal</b> stayintake.com</span>
+      <span><b>Companion</b> Travel Agent Handbook</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap layout">
+
+  <nav class="toc" aria-label="Contents">
+    <p>Contents</p>
+    <ol>
+      <li><a href="#start"><span>01</span> What the portal replaces</a></li>
+      <li><a href="#roles"><span>02</span> The six roles</a></li>
+      <li><a href="#inbox"><span>03</span> The reservations inbox</a></li>
+      <li><a href="#answering"><span>04</span> Answering a request</a></li>
+      <li><a href="#changes"><span>05</span> Changes and cancellations</a></li>
+      <li><a href="#pms"><span>06</span> Closing the PMS loop</a></li>
+      <li><a href="#notes"><span>07</span> Internal notes</a></li>
+      <li><a href="#arrivals"><span>08</span> The arrivals board</a></li>
+      <li><a href="#availability"><span>09</span> Availability enquiries</a></li>
+      <li><a href="#agencies"><span>10</span> Adding an agency</a></li>
+      <li><a href="#approving"><span>11</span> Approving and suspending</a></li>
+      <li><a href="#catalog"><span>12</span> Rooms and board basis</a></li>
+      <li><a href="#notices"><span>13</span> Announcements</a></li>
+      <li><a href="#documents"><span>14</span> Documents and expiry</a></li>
+      <li><a href="#users"><span>15</span> Your own staff</a></li>
+      <li><a href="#reports"><span>16</span> Reports</a></li>
+      <li><a href="#settings"><span>17</span> Property settings</a></li>
+      <li><a href="#audit"><span>18</span> The audit log</a></li>
+      <li><a href="#trouble"><span>19</span> When something looks wrong</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <section id="start">
+      <h2><span class="num">01</span> What the portal replaces</h2>
+      <p class="lede">The inbox, as a booking system.</p>
+      <p>
+        Agency bookings used to arrive by email and WhatsApp. Each one became a thread, and the thread
+        was the record. That fails in ordinary ways: the person who handled it is on leave, two people
+        reply to different copies, a voucher is attached to the wrong message, and nobody can say what
+        was agreed.
+      </p>
+      <p>
+        Here every request has one reference, one status, and a timeline that cannot be edited after
+        the fact. The agency sees the same status you do, which removes most of the chasing.
+      </p>
+      <p>
+        Email still goes out for anything that needs attention. Treat the email as a prompt and the
+        portal as the record.
+      </p>
+      <div class="note">
+        <p>
+          <strong>The portal does not hold rates.</strong> It carries requests, answers and the
+          documents attached to them. Contract rates stay where they are today.
+        </p>
+      </div>
+    </section>
+
+    <section id="roles">
+      <h2><span class="num">02</span> The six roles</h2>
+      <p class="lede">What each person sees is decided by their role, not by what they know.</p>
+      <p>
+        Every member of staff has one role. It decides which screens appear in their sidebar and which
+        buttons appear on a booking. Someone who cannot see a screen has not made a mistake.
+      </p>
+
+      <div class="scroller">
+        <table class="matrix">
+          <caption>Who can do what. Owner and Administrator hold everything in this table.</caption>
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th class="role">Owner /<br>Admin</th>
+              <th class="role">Reservations<br>Manager</th>
+              <th class="role">Reservations<br>Agent</th>
+              <th class="role">Front<br>Office</th>
+              <th class="role">Accounts</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>See bookings and reports</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td></tr>
+            <tr><td>Confirm or reject a request</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark no">—</td><td class="mark no">—</td></tr>
+            <tr><td>Request an amendment</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark no">—</td><td class="mark no">—</td></tr>
+            <tr><td>Approve a change or cancellation</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark no">—</td><td class="mark no">—</td></tr>
+            <tr><td>Assign a booking to a colleague</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark no">—</td><td class="mark no">—</td></tr>
+            <tr><td>Answer an availability enquiry</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark no">—</td><td class="mark no">—</td></tr>
+            <tr><td>Set the PMS reference</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark no">—</td></tr>
+            <tr><td>Write an internal note</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark no">—</td></tr>
+            <tr><td>Read internal notes</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark yes">●</td></tr>
+            <tr><td>Add and manage agencies</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark no">—</td><td class="mark no">—</td><td class="mark no">—</td></tr>
+            <tr><td>Approve or suspend an agency</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark no">—</td><td class="mark no">—</td><td class="mark no">—</td></tr>
+            <tr><td>Revoke one agent's access</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark no">—</td><td class="mark no">—</td><td class="mark no">—</td></tr>
+            <tr><td>Rooms and board basis</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark no">—</td><td class="mark no">—</td><td class="mark no">—</td></tr>
+            <tr><td>Publish announcements</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark no">—</td><td class="mark no">—</td><td class="mark no">—</td></tr>
+            <tr><td>Read the audit log</td><td class="mark yes">●</td><td class="mark yes">●</td><td class="mark no">—</td><td class="mark no">—</td><td class="mark no">—</td></tr>
+            <tr><td>Reopen a closed booking</td><td class="mark yes">●</td><td class="mark no">—</td><td class="mark no">—</td><td class="mark no">—</td><td class="mark no">—</td></tr>
+            <tr><td>Property settings and retention</td><td class="mark yes">●</td><td class="mark no">—</td><td class="mark no">—</td><td class="mark no">—</td><td class="mark no">—</td></tr>
+            <tr><td>Create and manage staff logins</td><td class="mark yes">●</td><td class="mark no">—</td><td class="mark no">—</td><td class="mark no">—</td><td class="mark no">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Why Front Office cannot confirm</h3>
+      <p>
+        The front desk's job in this product is the arrivals board and the PMS reference. Confirming a
+        booking commits rooms, and that belongs with reservations. Front Office can still see every
+        booking, write notes, and close the PMS loop.
+      </p>
+
+      <h3>Why Accounts is read-only</h3>
+      <p>
+        Accounts needs to see what was booked and what was agreed, not to change it. They can read
+        bookings, reports and internal notes, and nothing else.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-01.png" alt="The hotel sidebar" loading="lazy">
+        <figcaption><b>The hotel sidebar.</b> The full navigation as an owner or administrator sees it, with the Manage and Settings groups.</figcaption>
+      </figure>
+    </section>
+
+    <section id="inbox">
+      <h2><span class="num">03</span> The reservations inbox</h2>
+      <p class="lede">The screen the desk lives on.</p>
+      <p>
+        <em>Reservations</em> lists every request from every agency. The number beside it in the
+        sidebar is the count that needs a decision from you, so an empty badge means the desk is clear.
+      </p>
+      <p>
+        Four statuses are waiting on the hotel:
+        <span class="chip c-submitted">Submitted</span>,
+        <span class="chip c-amended">Amended, pending</span>,
+        <span class="chip c-modification">Modification requested</span> and
+        <span class="chip c-cancelreq">Cancellation requested</span>.
+        Everything else is either settled or with the agency.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-02.png" alt="The reservations inbox" loading="lazy">
+        <figcaption><b>The reservations inbox.</b> The list with the needs-attention count visible in the sidebar and several statuses on screen.</figcaption>
+      </figure>
+
+      <h3>Assigning</h3>
+      <p>
+        Assign a booking to the person handling it. It is how two people avoid answering the same
+        agency differently an hour apart, and it puts a name on the booking when a question comes back
+        weeks later.
+      </p>
+
+      <h3>Search</h3>
+      <p>
+        <code>⌘K</code> or <code>Ctrl+K</code> searches bookings, agencies and contacts. A surname,
+        a reference, part of a PMS number. Faster than filtering the list.
+      </p>
+    </section>
+
+    <section id="answering">
+      <h2><span class="num">04</span> Answering a request</h2>
+      <p class="lede">Three ways to answer, and each one tells the agency something different.</p>
+
+      <div class="scroller">
+        <table>
+          <caption>What each answer does</caption>
+          <thead>
+            <tr><th>Action</th><th>Status becomes</th><th>Use it when</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="who">Confirm</td>
+              <td><span class="chip c-confirmed">Confirmed</span></td>
+              <td>You can give them what they asked for. The rooms are now held.</td>
+            </tr>
+            <tr>
+              <td class="who">Request amendment</td>
+              <td><span class="chip c-amendment">Amendment requested</span></td>
+              <td>Nearly right. The voucher says three units and you have two, or a board basis that
+                  does not run on those dates.</td>
+            </tr>
+            <tr>
+              <td class="who">Reject</td>
+              <td><span class="chip c-rejected">Rejected</span></td>
+              <td>You cannot take it at all. Closed, with your reason on the record.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Write the reason properly</h3>
+      <p>
+        An amendment request without a reason becomes a phone call, which is the thing the portal
+        exists to remove. <em>We confirmed 2 units, your voucher shows 3</em> can be fixed by the
+        agency in two minutes. <em>Please check and resubmit</em> cannot.
+      </p>
+      <p>
+        The reason goes to the agency in the notification email and stays on the booking timeline, so
+        anyone picking it up later can see what was asked and when.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-03.png" alt="A booking waiting for a decision" loading="lazy">
+        <figcaption><b>A booking waiting for a decision.</b> The detail page for a submitted booking with the Confirm, Request amendment and Reject actions visible.</figcaption>
+      </figure>
+
+      <figure class="shot filled">
+        <img src="images/hotel-04.png" alt="Requesting an amendment" loading="lazy">
+        <figcaption><b>Requesting an amendment.</b> The reason box with a real, specific sentence typed in.</figcaption>
+      </figure>
+
+      <h3>The timeline</h3>
+      <p>
+        Every booking carries a timeline of what happened, who did it, and when. It cannot be edited
+        or deleted by anyone, including an administrator. That is deliberate: a record that can be
+        changed after an argument starts is not a record.
+      </p>
+
+      <div class="note warn">
+        <p>
+          <strong>Requests expire.</strong> A booking left in
+          <span class="chip c-submitted">Submitted</span> or
+          <span class="chip c-amendment">Amendment requested</span> for longer than the property's
+          setting is closed automatically as <span class="chip c-expired">Expired</span>. Watch the
+          inbox badge rather than relying on memory.
+        </p>
+      </div>
+    </section>
+
+    <section id="changes">
+      <h2><span class="num">05</span> Changes and cancellations</h2>
+      <p class="lede">A confirmed booking can only be changed by agreement.</p>
+      <p>
+        An agency cannot edit a confirmed booking. They raise a request against it, the rooms stay
+        held, and you decide.
+      </p>
+
+      <div class="scroller">
+        <table>
+          <caption>What happens to a confirmed booking</caption>
+          <thead>
+            <tr><th>They raise</th><th>You can</th><th>Result</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="who"><span class="chip c-modification">Modification requested</span></td>
+              <td>Approve or decline</td>
+              <td>Either way it returns to <span class="chip c-confirmed">Confirmed</span>. Declining
+                  requires a reason.</td>
+            </tr>
+            <tr>
+              <td class="who"><span class="chip c-cancelreq">Cancellation requested</span></td>
+              <td>Approve or decline</td>
+              <td>Approved becomes <span class="chip c-cancelled">Cancelled</span>. Declined returns
+                  to <span class="chip c-confirmed">Confirmed</span> with your reason.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        An agency can withdraw either request before you answer, and the booking goes straight back to
+        confirmed.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-05.png" alt="A cancellation request" loading="lazy">
+        <figcaption><b>A cancellation request.</b> A confirmed booking with a cancellation request on it, showing the Approve and Decline actions.</figcaption>
+      </figure>
+
+      <h3>Reopening</h3>
+      <p>
+        An owner or administrator can reopen a booking that was cancelled, rejected or expired. It
+        returns to <span class="chip c-submitted">Submitted</span> and requires a reason, which is
+        recorded. Use it when something was closed in error, not as a general undo.
+      </p>
+    </section>
+
+    <section id="pms">
+      <h2><span class="num">06</span> Closing the PMS loop</h2>
+      <p class="lede">The step that is easiest to skip and most expensive to miss.</p>
+      <p>
+        Confirming a booking in the portal does not put it in the property management system. Someone
+        still enters it, and then records the PMS reference back on the booking.
+      </p>
+      <p>
+        Until that reference is set, the booking shows as confirmed here and does not exist in the PMS.
+        That is the gap that produces a guest at the desk with a voucher and no reservation.
+      </p>
+      <p>
+        The dashboard counts confirmed bookings with no PMS reference. Front Office can set it, which
+        is why the front desk is in this product at all.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-06.png" alt="Setting the PMS reference" loading="lazy">
+        <figcaption><b>Setting the PMS reference.</b> A confirmed booking with the PMS reference field, either empty or being filled.</figcaption>
+      </figure>
+
+      <div class="note stop">
+        <p>
+          <strong>Check this number daily.</strong> A confirmed booking with no PMS reference is the
+          single most common cause of a guest arriving to no room.
+        </p>
+      </div>
+    </section>
+
+    <section id="notes">
+      <h2><span class="num">07</span> Internal notes</h2>
+      <p class="lede">Visible to the hotel. Never to the agency.</p>
+      <p>
+        A note on a booking is for your own team: the reason a rate was agreed, a complaint from a
+        previous stay, a manager's instruction. The agency cannot see notes and is never told they
+        exist.
+      </p>
+      <p>
+        Reservations and Front Office can write them. Accounts can read them. Write them as though the
+        guest might one day read them anyway, because a note is a record like any other.
+      </p>
+    </section>
+
+    <section id="arrivals">
+      <h2><span class="num">08</span> The arrivals board</h2>
+      <p class="lede">The front desk's screen.</p>
+      <p>
+        <em>Arrivals</em> shows who is due in, from which agency, on what board basis, and whether the
+        PMS reference is set. It is the morning check before the desk opens.
+      </p>
+      <p>
+        The portal also emails an arrival reminder to the property each morning, so the list arrives
+        without anyone opening a screen.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-07.png" alt="The arrivals board" loading="lazy">
+        <figcaption><b>The arrivals board.</b> Today's arrivals with agency names and PMS reference status.</figcaption>
+      </figure>
+    </section>
+
+    <section id="availability">
+      <h2><span class="num">09</span> Availability enquiries</h2>
+      <p class="lede">A question before there is a booking. Off unless you turn it on.</p>
+      <p>
+        When enabled in property settings, agencies can ask whether something is possible before they
+        promise it to a client. Reservations answers in the portal.
+      </p>
+      <p>
+        Only the reservations roles can answer, and that is deliberate: saying <em>yes, three doubles,
+        held until tomorrow at six</em> commits inventory before any booking exists. It is the same
+        kind of commitment as confirming, so it sits with the same people.
+      </p>
+
+      
+    </section>
+
+    <section id="agencies">
+      <h2><span class="num">10</span> Adding an agency</h2>
+      <p class="lede">You create the relationship. They set their own password.</p>
+      <p>
+        From <em>Agencies</em>, add the agency with one contact email for the company. They receive an
+        email from your hotel's name inviting them to set a password.
+      </p>
+      <p>
+        You never see or set an agency's password. If they lose it, they use <em>Forgot password</em>.
+        A hotel holding an agency's password would be holding it at every other hotel that agency works
+        with, which is why the portal does not allow it.
+      </p>
+
+      <h3>An agency that already exists</h3>
+      <p>
+        If the agency already works with another hotel on the portal, adding them sends an invitation
+        rather than creating a new account. They accept with the login they already have, and their
+        company details carry across.
+      </p>
+      <p>
+        You are not told which other hotels they work with, and they are not told that you looked.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-09.png" alt="Adding an agency" loading="lazy">
+        <figcaption><b>Adding an agency.</b> The new agency form with realistic company details entered.</figcaption>
+      </figure>
+    </section>
+
+    <section id="approving">
+      <h2><span class="num">11</span> Approving and suspending</h2>
+      <p class="lede">Six states, and only one of them can book.</p>
+
+      <div class="scroller">
+        <table>
+          <caption>Agency status</caption>
+          <thead>
+            <tr><th>Status</th><th>What it means</th><th>Can they book?</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="who">Invited</td><td>Asked to work with you, not yet accepted.</td><td>No</td></tr>
+            <tr><td class="who">Profile incomplete</td><td>Accepted, but their company details are unfinished.</td><td>No</td></tr>
+            <tr><td class="who">Pending approval</td><td>Their profile is complete and waiting on you.</td><td>No</td></tr>
+            <tr><td class="who">Active</td><td>Approved and trading.</td><td>Yes</td></tr>
+            <tr><td class="who">Suspended</td><td>Stopped by you, or by them.</td><td>No</td></tr>
+            <tr><td class="who">Archived</td><td>Closed relationship, kept for the record.</td><td>No</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Approving</h3>
+      <p>
+        Check the company details and documents, then approve. Approving says you are willing to trade
+        with them. It does not vouch for them to anyone else.
+      </p>
+
+      <h3>Suspending</h3>
+      <p>
+        Suspending stops the agency booking with <strong>your</strong> hotel only. If they work with
+        three hotels on the portal, the other two are unaffected and are not told. Each relationship
+        stands on its own.
+      </p>
+
+      <h3>Revoking one agent</h3>
+      <p>
+        You can also revoke a single person's access to your property without touching the agency.
+        Use it when one individual is the problem. It cannot change their role, cannot close their
+        account, and cannot affect their access to any other hotel.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-10.png" alt="An agency awaiting approval" loading="lazy">
+        <figcaption><b>An agency awaiting approval.</b> The agency detail page showing status, profile and the Approve action.</figcaption>
+      </figure>
+    </section>
+
+    <section id="catalog">
+      <h2><span class="num">12</span> Rooms and board basis</h2>
+      <p class="lede">What agencies can choose from.</p>
+      <p>
+        <em>Rooms &amp; board</em> holds your room categories and board bases. These are the options
+        that appear in the agency's booking wizard, so the names here are the names they will quote.
+      </p>
+      <p>
+        Use the names your contracts use. If an agency's voucher says <em>Deluxe Sea View</em> and your
+        portal says <em>Superior Ocean</em>, every booking needs an amendment.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-11.png" alt="Room categories" loading="lazy">
+        <figcaption><b>Room categories.</b> The list of room types and board bases as configured.</figcaption>
+      </figure>
+    </section>
+
+    <section id="notices">
+      <h2><span class="num">13</span> Announcements</h2>
+      <p class="lede">One message, every agency, at the same moment.</p>
+      <p>
+        An announcement reaches every active agency at once: a stop-sale, a closure, a change to
+        check-in. It appears under <em>Notices</em> in their portal and is emailed.
+      </p>
+      <p>
+        You can schedule one for a future date and time. A notice scheduled for nine in the morning
+        goes out close to nine, not whenever somebody remembers.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-12.png" alt="Writing an announcement" loading="lazy">
+        <figcaption><b>Writing an announcement.</b> The compose form with a realistic notice and a scheduled date.</figcaption>
+      </figure>
+    </section>
+
+    <section id="documents">
+      <h2><span class="num">14</span> Documents and expiry</h2>
+      <p class="lede">Licences and certificates, with dates that are watched.</p>
+      <p>
+        Agencies upload their trade licence, insurance and similar under their own profile. You see
+        them on the agency's page, and the portal warns before one lapses rather than after.
+      </p>
+      <p>
+        Under <em>Documents</em> in settings you set how long attached files are kept. Vouchers carry
+        guest names, so keeping them forever is a liability rather than an asset. The purge runs
+        automatically once configured, in your property's own timezone.
+      </p>
+
+      <div class="note">
+        <p>
+          <strong>Legal hold</strong> marks a file as exempt from the purge. Use it when a booking is
+          in dispute. It survives the retention setting being changed.
+        </p>
+      </div>
+    </section>
+
+    <section id="users">
+      <h2><span class="num">15</span> Your own staff</h2>
+      <p class="lede">Owners and administrators only.</p>
+      <p>
+        Under <em>Users</em> you create a login for each member of staff and give them a role from the
+        table in section 02. They set their own password from the email they receive.
+      </p>
+      <p>
+        One login each, never a shared desk account. Every confirmation, rejection and note records who
+        did it, and a shared login turns that record into guesswork at exactly the moment it matters.
+      </p>
+      <p>
+        When someone leaves, deactivate them the same day.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-13.png" alt="Staff and roles" loading="lazy">
+        <figcaption><b>Staff and roles.</b> The users list showing several people with different roles.</figcaption>
+      </figure>
+    </section>
+
+    <section id="reports">
+      <h2><span class="num">16</span> Reports</h2>
+      <p class="lede">Who is sending you business, and what happened to it.</p>
+      <p>
+        <em>Reports</em> covers bookings by agency, by status and over time. Every hotel role can read
+        them, including Accounts.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-14.png" alt="Reports" loading="lazy">
+        <figcaption><b>Reports.</b> A report view with real figures, over a period with enough data to be worth showing.</figcaption>
+      </figure>
+    </section>
+
+    <section id="settings">
+      <h2><span class="num">17</span> Property settings</h2>
+      <p class="lede">Owners and administrators only.</p>
+      <p>
+        <em>Property</em> holds the hotel's name, timezone, booking reference prefix, logo, and the
+        addresses that reservations and front office email goes to. It is also where availability
+        enquiries are switched on, and where the automatic expiry period is set.
+      </p>
+      <p>
+        The timezone matters more than it looks. The daily digest, the arrival reminders and the
+        document purge all work from the property's local clock, not from the server's.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-15.png" alt="Property settings" loading="lazy">
+        <figcaption><b>Property settings.</b> The settings page with the hotel's real name, timezone and email addresses.</figcaption>
+      </figure>
+    </section>
+
+    <section id="audit">
+      <h2><span class="num">18</span> The audit log</h2>
+      <p class="lede">Who did what, and when.</p>
+      <p>
+        <em>Audit log</em> records actions across the property: confirmations, rejections, agency
+        approvals, settings changes, logins. Owners, administrators and reservations managers can read
+        it.
+      </p>
+      <p>
+        Entries cannot be edited or deleted by anyone. If a question arises about what was agreed and
+        when, this is the answer.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-16.png" alt="The audit log" loading="lazy">
+        <figcaption><b>The audit log.</b> A page of entries showing several different kinds of action.</figcaption>
+      </figure>
+    </section>
+
+    <section id="trouble">
+      <h2><span class="num">19</span> When something looks wrong</h2>
+
+      <h3>A screen is missing from the sidebar</h3>
+      <p>
+        The role does not hold it. Check section 02. An owner or administrator can change a role under
+        <em>Users</em>.
+      </p>
+
+      <h3>An agency says they cannot book</h3>
+      <p>
+        Open their page and read the status. The usual answers are Profile incomplete, Pending
+        approval, or Suspended. The status says which.
+      </p>
+
+      <h3>An agency says they never received an email</h3>
+      <p>
+        Check the booking timeline, which records what was sent. A bounced address stops receiving
+        until it is corrected, so confirm the address on their profile is the one they actually read.
+      </p>
+
+      <h3>A guest has a voucher and no reservation</h3>
+      <p>
+        Search the reference. If the booking is confirmed in the portal with no PMS reference, it was
+        never entered into the PMS. See section 06.
+      </p>
+
+      <h3>Someone confirmed the wrong thing</h3>
+      <p>
+        Nothing on the timeline can be erased. An owner or administrator can reopen the booking with a
+        reason, and both the mistake and the correction stay on the record.
+      </p>
+
+      </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>
+      Ocean Bay Hotel reservations portal. Written for hotel staff across all six roles. If something
+      in this handbook does not match what you see on screen, the screen is right and this page needs
+      correcting. The companion document for agencies is the Travel Agent Handbook.
+    </p>
+  </div>
+</footer>
+
+</body></html>
