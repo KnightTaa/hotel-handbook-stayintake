@@ -410,7 +410,7 @@
 
 <header class="masthead">
   <div class="wrap">
-    <p class="eyebrow">Stayinake B2B Reservations Portal</p>
+    <p class="eyebrow">Serendib Bay Resort · Reservations Portal</p>
     <h1>Hotel Operations Handbook</h1>
     <p class="standfirst">
       How the hotel runs agency bookings through the portal: taking requests, answering them,
@@ -557,10 +557,17 @@
         <span class="chip c-cancelreq">Cancellation requested</span>.
         Everything else is either settled or with the agency.
       </p>
+      <p>
+        Two more tabs are worklists rather than statuses: <strong>Not in PMS</strong> (confirmed, but
+        nobody has recorded the property-management reference yet — see §6) and
+        <strong>Awaiting voucher</strong> (sent by an agency this hotel lets submit without one, who
+        has not attached it yet — see §11). Neither is a status a booking is "in"; both are just this
+        screen pointing at something you are owed.
+      </p>
 
       <figure class="shot filled">
         <img src="images/hotel-02.png" alt="The reservations inbox" loading="lazy">
-        <figcaption><b>The reservations inbox.</b> The list with the needs-attention count visible in the sidebar and several statuses on screen.</figcaption>
+        <figcaption><b>The reservations inbox,</b> on the <em>Awaiting voucher</em> tab: a booking sent without one, by an agency this hotel has excused from attaching it up front.</figcaption>
       </figure>
 
       <h3>Assigning</h3>
@@ -847,6 +854,36 @@
         <img src="images/hotel-10.png" alt="An agency awaiting approval" loading="lazy">
         <figcaption><b>An agency awaiting approval.</b> The agency detail page showing status, profile and the Approve action.</figcaption>
       </figure>
+
+      <h3>Letting one agency send the voucher later</h3>
+      <p>
+        A voucher is required by default — every agency, every booking. A real travel agent told us
+        some of her bookings go out days before the voucher exists: she holds the rooms first and the
+        paperwork follows. That is normal in parts of the trade, and <strong>Vouchers</strong> on the
+        agency's own page is where you decide whether to allow it from this one company.
+      </p>
+      <p>
+        It is set per relationship, not globally and not on the agency's account. The same company can
+        be excused at one hotel and still required to attach it up front at another — each hotel's
+        switch is its own, and nothing you set here is visible to, or affects, anyone else's.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-17.png" alt="The Vouchers setting on an agency" loading="lazy">
+        <figcaption><b>Vouchers, off.</b> This agency can send a booking now and attach the voucher when it arrives. The switch applies to this hotel only.</figcaption>
+      </figure>
+
+      <p>
+        While a booking from an excused agency has nothing attached, its Documents panel reads
+        <strong>No voucher yet</strong>, with a sentence explaining that the agency may send it later.
+        It appears the same way on the <strong>Awaiting voucher</strong> tab in the reservations inbox
+        (§3), so the desk always has one place to see what it is still owed.
+      </p>
+
+      <figure class="shot filled">
+        <img src="images/hotel-18.png" alt="The No voucher yet banner on a booking" loading="lazy">
+        <figcaption><b>No voucher yet.</b> The hotel's read of a booking from an excused agency — informational only; attaching the voucher is the agency's action, not yours.</figcaption>
+      </figure>
     </section>
 
     <section id="catalog">
@@ -1020,7 +1057,7 @@
 <footer>
   <div class="wrap">
     <p>
-      Ocean Bay Hotel reservations portal. Written for hotel staff across all six roles. If something
+      Serendib Bay Resort reservations portal. Written for hotel staff across all six roles. If something
       in this handbook does not match what you see on screen, the screen is right and this page needs
       correcting. The companion document for agencies is the Travel Agent Handbook.
     </p>
